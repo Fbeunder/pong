@@ -1,0 +1,94 @@
+# Pong Applicatie
+
+## 1. Projectoverzicht
+Een Python en web-gebaseerde applicatie om het klassieke Pong spel te kunnen spelen. Spelers kunnen hun naam invoeren, het spel spelen met pijltjestoetsen, en hun score wordt bijgehouden. Na drie gemiste ballen is het spel voorbij en wordt gevraagd of de speler opnieuw wil beginnen.
+
+## 2. Architectuur
+De applicatie is gebouwd volgens een modulaire structuur met een scheiding tussen front-end (web GUI) en back-end (Python server). Flask wordt gebruikt als webframework om de verbinding tussen front-end en back-end mogelijk te maken.
+
+## 3. Modules
+
+### app.py
+**Functionaliteit**: Hoofdapplicatie entry-point die de webserver opstart en routes definieert.
+**Belangrijkste functies**:
+- `main()`: Start de Flask-applicatie
+  - Parameters: geen
+  - Return: geen
+  - Afhankelijkheden: Flask, modules.game_logic, modules.player, modules.score
+
+### modules/game_logic.py
+**Functionaliteit**: Bevat de kern spellogica voor Pong.
+**Belangrijkste functies**:
+- `initialize_game(player_name)`: Initialiseert een nieuw spel
+  - Parameters: player_name (str) - Naam van de speler
+  - Return: game_id (str) - Unieke ID voor het spel
+  - Afhankelijkheden: modules.player
+- `update_game_state(game_id, paddle_position)`: Update de spelstatus
+  - Parameters: game_id (str), paddle_position (int) - Positie van de paddle
+  - Return: dict - De geüpdatete spelstatus (balposities, score, etc.)
+  - Afhankelijkheden: modules.score
+- `check_game_over(game_id)`: Controleert of het spel voorbij is
+  - Parameters: game_id (str) - Unieke ID voor het spel
+  - Return: bool - True als het spel voorbij is, anders False
+  - Afhankelijkheden: geen
+
+### modules/player.py
+**Functionaliteit**: Beheert spelersgegevens.
+**Belangrijkste functies**:
+- `create_player(name)`: Maakt een nieuwe speler aan
+  - Parameters: name (str) - Naam van de speler
+  - Return: player_id (str) - Unieke ID voor de speler
+  - Afhankelijkheden: geen
+- `get_player(player_id)`: Haalt spelersinformatie op
+  - Parameters: player_id (str) - Unieke ID voor de speler
+  - Return: dict - Spelersgegevens
+  - Afhankelijkheden: geen
+
+### modules/score.py
+**Functionaliteit**: Beheert de score van het spel.
+**Belangrijkste functies**:
+- `update_score(game_id, points)`: Update de score van een spel
+  - Parameters: game_id (str), points (int) - Toe te voegen punten
+  - Return: int - Nieuwe score
+  - Afhankelijkheden: geen
+- `get_score(game_id)`: Haalt de huidige score op
+  - Parameters: game_id (str) - Unieke ID voor het spel
+  - Return: int - Huidige score
+  - Afhankelijkheden: geen
+- `save_high_score(player_id, score)`: Slaat een high score op
+  - Parameters: player_id (str), score (int)
+  - Return: bool - True als het een nieuwe high score is, anders False
+  - Afhankelijkheden: modules.player
+
+### static/js/game.js
+**Functionaliteit**: Client-side spellogica in JavaScript.
+**Belangrijkste functies**:
+- `initGame()`: Initialiseert het canvas en de spelcomponenten
+- `updateGame()`: Update de spelstatus en render
+- `handleInput()`: Verwerkt toetsenbordinvoer
+- `sendPaddlePosition()`: Stuurt de huidige paddle positie naar de server
+
+### templates/index.html
+**Functionaliteit**: HTML-template voor de startpagina met naamregistratie.
+
+### templates/game.html
+**Functionaliteit**: HTML-template voor de speelpagina.
+
+## 4. Status
+Nog geen modules voltooid. Het project bevindt zich in de initiële opstartfase.
+
+## 5. Volgende stappen
+
+### Must Haves
+1. Opzetten van de basiswebserver met Flask
+2. Implementeren van de basis spellogica
+3. Creëren van de web GUI met canvas voor het renderen van het spel
+4. Implementeren van spelersinvoer en bewegingscontrole
+5. Implementeren van score- en levens-tracking
+
+### Nice to Haves
+1. Geluideffecten
+2. Verschillende moeilijkheidsgraden
+3. Multiplayer-ondersteuning
+4. Persistente high score-lijst
+5. Aanpassingsopties voor het speluiterlijk
